@@ -32,6 +32,11 @@ jobs:
       - name: Sync web code into the Android project
         run: npx cap sync android
 
+      - name: Install persistent debug keystore
+        run: |
+          mkdir -p ~/.android
+          keytool -importkeystore -srckeystore android/debug.p12 -srcstoretype pkcs12 -srcstorepass android -destkeystore ~/.android/debug.keystore -deststorepass android -destkeypass android -alias androiddebugkey -noprompt
+
       - name: Build debug APK
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
 
